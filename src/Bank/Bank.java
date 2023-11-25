@@ -1,8 +1,14 @@
 package Bank;
 
+import java.util.Arrays;
+import java.util.Random;
+import _Utils_.RandomGenerator;
+
 public class Bank {
-    protected String bankCode;
-    protected double amount = 0;
+    private String bankCode;
+    private int pinCode;
+    private RandomGenerator randomGenerator = new RandomGenerator();
+    private double amount = 0;
 
     public enum CurrencyType {
         EUR,
@@ -16,13 +22,15 @@ public class Bank {
 
     protected CurrencyType currencyType;
 
-    protected Bank(String bankCode_, double sum, CurrencyType currencyType_) throws bankException {
-        this.bankCode = bankCode_;
+    public Bank(double sum, CurrencyType currencyType_) throws bankException {
+        this.bankCode = randomGenerator.generateRandomString();
         this.currencyType = currencyType_;
-        depose(sum);
+        this.pinCode = new Random().nextInt(9000) + 1000;
+        deposit(sum);
+        System.out.println("IT HAS BEEN CREATED " + getClass());
     }
 
-    public void depose(double sum) throws bankException {
+    public void deposit(double sum) throws bankException {
         if(sum < 0) {
             throw new bankException("Error, trying to deposit negative money");
         }
@@ -36,11 +44,26 @@ public class Bank {
         this.amount = sum;
     }
 
-    public String toString() {
-        return "Bank: code= " + bankCode + ", amount= " + amount;
-    }
-
     public String getBankCode() {
         return bankCode;
+    }
+
+    public void completeBankCode(String appendedText) {
+        String result = "_";
+        for (Character firstPart : appendedText.toCharArray()) {
+            if (firstPart == ' ' ) {
+                break;
+            }
+            result += firstPart;
+        }
+        this.bankCode = this.bankCode + String.join(" ", result);
+    }
+
+    public int getPinCode() {
+        return pinCode;
+    }
+
+    public String toString() {
+        return "Bank: code= " + bankCode + ", amount= " + amount + ", pincode is " + pinCode + ", Currency is " + currencyType;
     }
 }
