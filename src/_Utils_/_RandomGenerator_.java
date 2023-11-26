@@ -2,10 +2,11 @@ package _Utils_;
 
 import java.util.Random;
 
-public class RandomGenerator {
+public class _RandomGenerator_ {
+    _Logger_ logger;
 
-    public RandomGenerator() {
-        System.out.println("IT HAS BEEN CREATED " + this.getClass());
+    public _RandomGenerator_() {
+        logger.logDebug("Created " + getClass());
     }
 
     public static String generateRandomString() {
