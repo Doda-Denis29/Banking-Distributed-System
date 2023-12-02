@@ -14,7 +14,7 @@ public class _RandomGenerator_ {
 
         StringBuilder randomString = new StringBuilder();
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 5; i++) {
             char randomChar = (char) (random.nextInt(26) + 'a');
             if (random.nextBoolean()) {
                 randomChar = Character.toUpperCase(randomChar);

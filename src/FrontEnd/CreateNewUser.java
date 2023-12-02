@@ -4,6 +4,7 @@ import BackEnd.UserDatabase;
 import Bank.Bank;
 import Bank.bankException;
 import User.User;
+import _Utils_._Logger_;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +18,8 @@ public class CreateNewUser implements GUI, ActionListener {
     private static JComboBox<String> dropDownCurrency;
     private static JLabel suc;
     private static JPanel panel;
-    private UserDatabase userDatabase;
+    private UserDatabase userDatabase = UserDatabase.getInstance();
+    private _Logger_ logger = new _Logger_();
 
     @Override
     public void createBasic(String nameFrame, int sizeX, int sizeY, ImageIcon icon) {
@@ -101,15 +103,19 @@ public class CreateNewUser implements GUI, ActionListener {
             signUpPage.createBasic("Sign up", 350, 250, sigunUpIcon);
         }
         if (e.getSource() == createAccount_b) {
-            if(name_.length() != 0 && bankName_.length() != 0) {
+            if((name_.length() != 0 && bankName_.length() != 0) && (name_.length() <= 38 && bankName_.length() <= 38)) {
                 try {
                     User newUser = new User(name_, Bank.CurrencyType.valueOf(currencyType_), bankName_);
                     pin_txt.setText(String.valueOf(newUser.getBank().getPinCode()));
                     bankCode_txt.setText(String.valueOf(newUser.getBank().getBankCode()));
                     userDatabase.addEntry(newUser);
+                    userDatabase.listEverything();
+                    logger.logInfo("Added a new user");
                 } catch (bankException ex) {
                     throw new RuntimeException(ex);
                 }
+            } else {
+                System.out.println("Bruh");
             }
         }
         if(e.getSource() == dropDownCurrency) {
