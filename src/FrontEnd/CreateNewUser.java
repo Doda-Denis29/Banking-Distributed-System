@@ -1,21 +1,28 @@
 package FrontEnd;
 
+import BackEnd.UserDatabase;
+import Bank.Bank;
+import Bank.bankException;
+import User.User;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CreateNewUser implements GUI, ActionListener {
     private static JFrame frame;
-    private static JLabel name, bankName, currencyType, pin;
+    private static JLabel name, bankName, currencyType, pin, pin_txt, bankCode, bankCode_txt;
     private static JTextField name_txt, bankName_txt;
     private static JButton back_b, createAccount_b;
     private static JComboBox<String> dropDownCurrency;
     private static JLabel suc;
+    private static JPanel panel;
+    private UserDatabase userDatabase;
 
     @Override
     public void createBasic(String nameFrame, int sizeX, int sizeY, ImageIcon icon) {
         frame = new JFrame(nameFrame);
-        JPanel panel = new JPanel();
+        panel = new JPanel();
         frame.setSize(sizeX, sizeY);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
@@ -23,14 +30,14 @@ public class CreateNewUser implements GUI, ActionListener {
         frame.setIconImage(icon.getImage());
 
         name = new JLabel("Full name");
-        name.setBounds(10, 20, 80, 25);
+        name.setBounds(7, 20, 80, 25);
         panel.add(name);
         name_txt = new JTextField(20);
         name_txt.setBounds(100, 20, 165, 25);
         panel.add(name_txt);
 
         bankName = new JLabel("Bank name");
-        bankName.setBounds(10, 50, 80, 25);
+        bankName.setBounds(7, 50, 80, 25);
         panel.add(bankName);
         bankName_txt = new JTextField(20);
         bankName_txt.setBounds(100, 50, 165, 25);
@@ -38,22 +45,32 @@ public class CreateNewUser implements GUI, ActionListener {
 
         String[] currencyOptions = {"EUR", "RON", "FRA", "LIR", "USD", "YEN", "FOR"};
         currencyType = new JLabel("Currency type");
-        currencyType.setBounds(10, 80, 80, 25);
+        currencyType.setBounds(7, 80, 80, 25);
         panel.add(currencyType);
         dropDownCurrency = new JComboBox<>(currencyOptions);
         dropDownCurrency.setBounds(100, 80, 80, 25);
         panel.add(dropDownCurrency);
 
         pin = new JLabel("Generated pin");
-        pin.setBounds(10, 110, 100, 25);
+        pin.setBounds(7, 110, 100, 25);
         panel.add(pin);
+        pin_txt = new JLabel();
+        pin_txt.setBounds(100, 110, 100, 25);
+        panel.add(pin_txt);
+
+        bankCode = new JLabel("Generated bank code");
+        bankCode.setBounds(7, 140, 130, 25);
+        panel.add(bankCode);
+        bankCode_txt = new JLabel();
+        bankCode_txt.setBounds(140, 140, 165, 25);
+        panel.add(bankCode_txt);
 
         back_b = new JButton("Back");
-        back_b.setBounds(100, 170, 80, 25);
+        back_b.setBounds(100, 200, 80, 25);
         panel.add(back_b);
 
         createAccount_b = new JButton("Generate account");
-        createAccount_b.setBounds(100,140,170,25);
+        createAccount_b.setBounds(100,170,170,25);
         panel.add(createAccount_b);
 
         suc = new JLabel("");
@@ -84,7 +101,16 @@ public class CreateNewUser implements GUI, ActionListener {
             signUpPage.createBasic("Sign up", 350, 250, sigunUpIcon);
         }
         if (e.getSource() == createAccount_b) {
-
+            if(name_.length() != 0 && bankName_.length() != 0) {
+                try {
+                    User newUser = new User(name_, Bank.CurrencyType.valueOf(currencyType_), bankName_);
+                    pin_txt.setText(String.valueOf(newUser.getBank().getPinCode()));
+                    bankCode_txt.setText(String.valueOf(newUser.getBank().getBankCode()));
+                    userDatabase.addEntry(newUser);
+                } catch (bankException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         }
         if(e.getSource() == dropDownCurrency) {
             ((JComboBox)e.getSource()).getSelectedItem();

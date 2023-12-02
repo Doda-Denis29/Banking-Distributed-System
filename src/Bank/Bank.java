@@ -4,6 +4,8 @@ import java.util.Random;
 import _Utils_._RandomGenerator_;
 import _Utils_._Logger_;
 
+import javax.swing.*;
+
 public class Bank {
     private String bankCode, nameBank;
     private int pinCode;
@@ -16,7 +18,7 @@ public class Bank {
         RON,
         FRA,
         LIR,
-        DOL,
+        USD,
         YEN,
         FOR
     };
