@@ -26,27 +26,33 @@ public class SignUpPage implements GUI, ActionListener {
         frame.add(panel);
         panel.setLayout(null);
         frame.setIconImage(icon.getImage());
-        bankCode = new JLabel("BankCode");
+
+        bankCode = new JLabel("Bank code");
         bankCode.setBounds(10, 20, 80, 25);
         panel.add(bankCode);
         bankCode_txt = new JTextField(20);
         bankCode_txt.setBounds(100, 20, 165, 25);
         panel.add(bankCode_txt);
+
         pin = new JLabel("Pin");
         pin.setBounds(10, 50, 80, 25);
         panel.add(pin);
         pin_txt = new JPasswordField();
         pin_txt.setBounds(100, 50, 165, 25);
         panel.add(pin_txt);
+
         login_b = new JButton("Login");
         login_b.setBounds(100, 80, 80, 25);
         panel.add(login_b);
+
         createAccount_b = new JButton("Create a new account");
         createAccount_b.setBounds(100,110,170,25);
         panel.add(createAccount_b);
+
         suc = new JLabel("");
         suc.setBounds(100, 130, 300, 25);
         panel.add(suc);
+
         login_b.addActionListener(this);
         createAccount_b.addActionListener(this);
         frame.setVisible(true);
@@ -73,9 +79,10 @@ public class SignUpPage implements GUI, ActionListener {
             }
         }
         if(e.getSource() == createAccount_b) {
-            //TODO go to another page where we have another page where we create a new user
-
-            System.out.println("Created account");
+            endBasic();
+            CreateNewUser createNewUser = new CreateNewUser();
+            ImageIcon createAccountIcon = new ImageIcon("icons/piggyBank.png");
+            createNewUser.createBasic("Create account", 400, 300, createAccountIcon);
         }
     }
 }
