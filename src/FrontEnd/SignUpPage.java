@@ -1,40 +1,43 @@
 package FrontEnd;
 
+import _Utils_._Logger_;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SignUpPage implements GUI, ActionListener {
 
-    private static JLabel user, passw;
-    private static JTextField user_txt;
-    private static JPasswordField passw_txt;
+    private static JFrame frame;
+    private static JLabel bankCode, pin;
+    private static JTextField bankCode_txt;
+    private static JPasswordField pin_txt;
     private static JButton login_b, createAccount_b;
     private static JLabel suc;
+    private _Logger_ logger = new _Logger_();
 
 
     @Override
-    public void createBasic(JFrame frame, float sizeX, float sizeY, ImageIcon icon) {
-        frame = new JFrame();
+    public void createBasic(String nameFrame, int sizeX, int sizeY, ImageIcon icon) {
+        frame = new JFrame(nameFrame);
         JPanel panel = new JPanel();
-        frame.setSize(500, 500);
+        frame.setSize(sizeX, sizeY);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
         panel.setLayout(null);
-        icon = new ImageIcon("icon/Chinease_funny.jpg");
         frame.setIconImage(icon.getImage());
-        user = new JLabel("User");
-        user.setBounds(10, 20, 80, 25);
-        panel.add(user);
-        user_txt = new JTextField(20);
-        user_txt.setBounds(100, 20, 165, 25);
-        panel.add(user_txt);
-        passw = new JLabel("Password");
-        passw.setBounds(10, 50, 80, 25);
-        panel.add(passw);
-        passw_txt = new JPasswordField();
-        passw_txt.setBounds(100, 50, 165, 25);
-        panel.add(passw_txt);
+        bankCode = new JLabel("BankCode");
+        bankCode.setBounds(10, 20, 80, 25);
+        panel.add(bankCode);
+        bankCode_txt = new JTextField(20);
+        bankCode_txt.setBounds(100, 20, 165, 25);
+        panel.add(bankCode_txt);
+        pin = new JLabel("Pin");
+        pin.setBounds(10, 50, 80, 25);
+        panel.add(pin);
+        pin_txt = new JPasswordField();
+        pin_txt.setBounds(100, 50, 165, 25);
+        panel.add(pin_txt);
         login_b = new JButton("Login");
         login_b.setBounds(100, 80, 80, 25);
         panel.add(login_b);
@@ -50,19 +53,28 @@ public class SignUpPage implements GUI, ActionListener {
     }
 
     @Override
-    public void endBasic(JFrame frame) {
-        frame.setVisible(false);
+    public void endBasic() {
+        this.frame.setVisible(false);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String user_ = user_txt.getText();
-        String pas = passw_txt.getText();
+        String user_ = bankCode_txt.getText();
+        String pas = pin_txt.getText();
 
         if(e.getSource() == login_b) {
-            System.out.println("Logged in");
+            if(pas.length() > 4) {
+                logger.logError("Pin exceeds length");
+            } else if (pas.length() == 0) {
+                logger.logError("Pin is empty");
+            } else {
+                //TODO check using our backEnd with the server and inside the database
+                System.out.println("Logged in");
+            }
         }
         if(e.getSource() == createAccount_b) {
+            //TODO go to another page where we have another page where we create a new user
+
             System.out.println("Created account");
         }
     }
