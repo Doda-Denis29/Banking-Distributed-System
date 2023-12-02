@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 
 public class CreateNewUser implements GUI, ActionListener {
     private static JFrame frame;
-    private static JLabel name, bankName, pin;
+    private static JLabel name, bankName, currencyType, pin;
     private static JTextField name_txt, bankName_txt;
-    private static JButton back_b, createAccount_b, selectCurrency_b;
+    private static JButton back_b, createAccount_b;
     private static JComboBox<String> dropDownCurrency;
     private static JLabel suc;
 
@@ -37,10 +37,15 @@ public class CreateNewUser implements GUI, ActionListener {
         panel.add(bankName_txt);
 
         String[] currencyOptions = {"EUR", "RON", "FRA", "LIR", "USD", "YEN", "FOR"};
+        currencyType = new JLabel("Currency type");
+        currencyType.setBounds(10, 80, 80, 25);
+        panel.add(currencyType);
         dropDownCurrency = new JComboBox<>(currencyOptions);
+        dropDownCurrency.setBounds(100, 80, 80, 25);
+        panel.add(dropDownCurrency);
 
         pin = new JLabel("Generated pin");
-        pin.setBounds(10, 80, 100, 25);
+        pin.setBounds(10, 110, 100, 25);
         panel.add(pin);
 
         back_b = new JButton("Back");
@@ -51,17 +56,13 @@ public class CreateNewUser implements GUI, ActionListener {
         createAccount_b.setBounds(100,140,170,25);
         panel.add(createAccount_b);
 
-        selectCurrency_b = new JButton("Currency type");
-        selectCurrency_b.setBounds(10, 110, 180, 25);
-        panel.add(selectCurrency_b);
-
         suc = new JLabel("");
         suc.setBounds(100, 130, 300, 25);
         panel.add(suc);
 
         back_b.addActionListener(this);
         createAccount_b.addActionListener(this);
-        selectCurrency_b.addActionListener(this);
+        dropDownCurrency.addActionListener(this);
         frame.setVisible(true);
     }
 
@@ -74,6 +75,7 @@ public class CreateNewUser implements GUI, ActionListener {
     public void actionPerformed(ActionEvent e) {
         String name_ = name_txt.getText();
         String bankName_ = bankName_txt.getText();
+        String currencyType_ = (String)dropDownCurrency.getSelectedItem();
 
         if(e.getSource() == back_b) {
             endBasic();
@@ -84,11 +86,8 @@ public class CreateNewUser implements GUI, ActionListener {
         if (e.getSource() == createAccount_b) {
 
         }
-        if(e.getSource() == selectCurrency_b) {
-            String selectedOption = (String) dropDownCurrency.getSelectedItem();
-
-            // Display the selected item
-            JOptionPane.showMessageDialog(frame, "Selected Option: " + selectedOption);
+        if(e.getSource() == dropDownCurrency) {
+            ((JComboBox)e.getSource()).getSelectedItem();
         }
     }
 }
