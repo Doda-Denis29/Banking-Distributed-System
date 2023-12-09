@@ -2,6 +2,8 @@ package BackEnd;
 
 import User.User;
 import _Utils_._Logger_;
+
+import javax.xml.crypto.Data;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +35,20 @@ public class UserDatabase {
     public void removeEntry(User user) {
         Database.remove(user.getBank().getNameBank(), user.getBank().getPinCode());
         logger.logInfo("Removed user: " + user);
+    }
+
+    public void ChangePin(String bankCode, int pinCode, int newPinCode) {
+        Database.replace(bankCode, pinCode, newPinCode);
+        logger.logInfo("Changed the pin code for bankCode: " + bankCode);
+    }
+
+    public boolean findUser(String bankCode, int pinCode) {
+        for (Map.Entry<String, Integer> entry : Database.entrySet()) {
+            if((entry.getKey().equals(bankCode)) && (entry.getValue().equals(pinCode))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void listEverything() {

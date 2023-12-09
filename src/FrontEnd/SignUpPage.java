@@ -1,5 +1,6 @@
 package FrontEnd;
 
+import BackEnd.UserDatabase;
 import _Utils_._Logger_;
 
 import javax.swing.*;
@@ -15,6 +16,7 @@ public class SignUpPage implements GUI, ActionListener {
     private static JButton login_b, createAccount_b;
     private static JLabel suc;
     private _Logger_ logger = new _Logger_();
+    private UserDatabase userDatabase = UserDatabase.getInstance();
 
 
     @Override
@@ -74,8 +76,11 @@ public class SignUpPage implements GUI, ActionListener {
             } else if (pas.length() == 0) {
                 logger.logError("Pin is empty");
             } else {
-                //TODO check using our backEnd with the server and inside the database
-                System.out.println("Logged in");
+                if(userDatabase.findUser(user_, Integer.parseInt(pas))) {
+                    System.out.println("Logged in");
+                } else {
+                    System.out.println("Not logged in, user not exist");
+                }
             }
         }
         if(e.getSource() == createAccount_b) {

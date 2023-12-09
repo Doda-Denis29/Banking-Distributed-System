@@ -7,6 +7,7 @@ import User.User;
 import javax.swing.*;
 
 public class Main {
+    private static User test;
     private static UserDatabase userDatabase = UserDatabase.getInstance();
     protected static void populateDatabase() throws bankException {
         User user = new User("Giorno Giovanna", Bank.CurrencyType.EUR, "ALPHA");
@@ -25,6 +26,7 @@ public class Main {
         User user13 = new User("Heyden Young", Bank.CurrencyType.YEN, "BRD");
         User user14 = new User("Matthew Gill", Bank.CurrencyType.USD, "FIRSTBANK");
         User user15 = new User("Tom Jefferson", Bank.CurrencyType.USD, "UNICREDIT");
+        test = new User("Test", Bank.CurrencyType.EUR, "TEST");
         userDatabase.addEntry(user);
         userDatabase.addEntry(user1);
         userDatabase.addEntry(user2);
@@ -41,6 +43,7 @@ public class Main {
         userDatabase.addEntry(user13);
         userDatabase.addEntry(user14);
         userDatabase.addEntry(user15);
+        userDatabase.addEntry(test);
     }
     public static void main(String[] args) throws bankException {
         populateDatabase();
